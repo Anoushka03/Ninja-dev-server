@@ -14,6 +14,13 @@ app.get('/',(req,res)=>{
     res.status(200).send('<h1>Ninja Developer Server</h1>')
 })
 
+// Routes 
+
+const slackRoute = require('./routes/slack')
+app.use('/slack',slackRoute)
+
+//===
+
 app.listen(process.env.PORT|| 3000,()=>{
     console.log(`Server started at port ${process.env.PORT||3000}`)
 })
