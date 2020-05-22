@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+require('dotenv').config()
 
 
 const app = express()
@@ -16,8 +17,11 @@ app.get('/',(req,res)=>{
 
 // Routes 
 
-const slackRoute = require('./routes/slack')
-app.use('/slack',slackRoute)
+// const slackRoute = require('./routes/slack')
+// app.use('/slack',slackRoute)
+
+const uimsRoute = require('./routes/uims')
+app.use('/uims',uimsRoute)
 
 //===
 
