@@ -8,6 +8,7 @@ router.route('/attendence')
     .get(async(req,res)=> {
         const {uid, password} = req.body
         const options = {
+            pythonPath: `${path.join(__dirname,'..','lib','python','venv', 'Scripts', 'python.exe')}`,
             args: [uid,password]
         }
         let pythonScript = new PythonShell(path.join(__dirname,'..','lib','python','attendence.py'),options)
