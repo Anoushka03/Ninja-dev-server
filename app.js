@@ -20,9 +20,6 @@ app.get('/',(req,res)=>{
 // const slackRoute = require('./routes/slack')
 // app.use('/slack',slackRoute)
 
-const uimsRoute = require('./routes/uims')
-app.use('/uims',uimsRoute)
-
 //===
 
 app.listen(process.env.PORT|| 3000,()=>{
