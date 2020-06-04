@@ -1,6 +1,7 @@
 const app = require('./app')
 const socketio = require('socket.io')
 const http = require('http')
+const mongoose = require('mongoose')
 
 const server = http.createServer(app)
 
@@ -15,6 +16,11 @@ io.on('connection', (socket) => {
     })
 })
 
-server.listen(process.env.PORT|| 3000,()=>{
-    console.log(`Server started at port ${process.env.PORT||3000}`)
-})
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        server.listen(process.env.PORT || 3000, () => {
+            console.log(`Server started at port ${process.env.PORT || 3000}`)
+        })
+    }).catch(err => {
+        console.log(err)
+    })
