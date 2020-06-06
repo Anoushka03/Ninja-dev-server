@@ -1,6 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-const User = require('./model/users')
+const {User,comparePassword} = require('./model/users')
 const passportJWT = require('passport-jwt')
 const JWTStrategy = passportJWT.Strategy
 const ExtractJWT = passportJWT.ExtractJwt
@@ -14,12 +14,14 @@ passport.use(new LocalStrategy({
 
         if (!user) return cb(null, false, { message: 'Incorrect username' })
 
-        let isMatch = user.comparePassword(password)
+        let isMatch = await comparePassword(user, password)
+
 
         if (!isMatch) return cb(null, false, { message: 'Incorrect password' })
 
         return cb(null, user, { message: 'Login successfull' })
     } catch (error) {
+        console.log(error)
         cb(error)
     }
 }))

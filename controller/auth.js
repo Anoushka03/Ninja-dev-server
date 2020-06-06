@@ -16,15 +16,16 @@ exports.login = async (req, res) => {
 
 exports.signup = async (req, res) => {
     let { uid, uims_password, password } = req.body
-    console.log(uid, uims_password, password)
 
     let uimsApi = new UimsApi()
 
     try {
 
-        let isValid = await uimsApi.login({ uid: uid, password: uims_password })
+        const user = await User.findOne({uid: uid})
 
-        console.log(isValid)
+        if(user) return res.status(401).json({message: 'Uid already exists login instead'})
+
+        let isValid = await uimsApi.login({ uid: uid, password: uims_password })
 
         if(!isValid) return res.status(401).json({message: 'wrong uid or password'})
         
