@@ -6,15 +6,17 @@ const JWTStrategy = passportJWT.Strategy
 const ExtractJWT = passportJWT.ExtractJwt
 
 passport.use(new LocalStrategy({
-    usernameField: 'username',
+    usernameField: 'uid',
     passwordField: 'password'
-}, async (username, password, cb) => {
+}, async (uid, password, cb) => {
     try {
-        let user = await User.findOne({ username: username })
+        let user = await User.findOne({ uid: uid })
 
         if (!user) return cb(null, false, { message: 'Incorrect username' })
 
-        if (user.password !== password) return cb(null, false, { message: 'Incorrect Password' })
+        let isMatch = user.comparePassword(password)
+
+        if (!isMatch) return cb(null, false, { message: 'Incorrect password' })
 
         return cb(null, user, { message: 'Login successfull' })
     } catch (error) {
