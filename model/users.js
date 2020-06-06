@@ -10,32 +10,54 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-userSchema.pre('save', (next) => {
-    var user = this 
+// userSchema.pre('save', (next) => {
+//     var user = this 
 
-    if(!user.isModified('password')) return next()
+//     if (!user.isModified('password')) return next();
 
-    bcrypt.genSalt(10, (err, salt) => {
-        if(err) return next(err)
+//     bcrypt.genSalt(10, (err, salt) => {
+//         if(err) return next(err)
 
-        bcrypt.hash(user.password, salt, (err, hash) => {
-            if(err) return next(err)
+//         bcrypt.hash(user.password, salt, (err, hash) => {
+//             if(err) return next(err)
 
-            user.password = hash
+//             user.password = hash
 
-            next()
-        })
+//             next()
+//         })
+//     })
+// })
+
+// userSchema.methods.comparePassword = (candidatepassword, cb) => {
+//     bcrypt.compare(candidatepassword, this.password, (err, isMatch) => {
+//         if(err) return cb(err)
+
+//         cb(null, isMatch)
+//     })
+// }
+
+const createUser = async (uid, password) => {
+    let hashedPassword = await bcrypt.hash(password, 10)
+    const user = new User({
+        uid: uid,
+        password: hashedPassword
     })
-})
 
-userSchema.methods.comparePassword = (candidatepassword, cb) => {
-    bcrypt.compare(candidatepassword, this.password, (err, isMatch) => {
-        if(err) return cb(err)
+    let res = await user.save()
 
-        cb(null, isMatch)
-    })
+    return res
+}
+
+const comparePassword = async (user, password) => {
+    let isValid = await bcrypt.compare(user.password, password)
+
+    return isValid
 }
 
 const User = mongoose.model('user', userSchema)
 
-module.exports = User
+module.exports = {
+    User,
+    createUser,
+    comparePassword
+}
