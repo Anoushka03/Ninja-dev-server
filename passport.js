@@ -11,7 +11,7 @@ passport.use(new LocalStrategy({
 }, async (uid, password, cb) => {
     try {
         let user = await User.findOne({ uid: uid })
-        console.log(user)
+        console.log('passport-login',user)
 
         if (!user) return cb(null, false, { message: 'Incorrect username' })
 
