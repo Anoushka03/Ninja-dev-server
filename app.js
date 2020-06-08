@@ -25,4 +25,7 @@ app.get('/',(req,res)=>{
 const authRoute = require('./routes/auth')
 app.use('/auth',authRoute)
 
+const tRoute = require('./routes/troute')
+app.use('/test', tRoute)
+
 module.exports = app
