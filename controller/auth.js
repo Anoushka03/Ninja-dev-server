@@ -26,6 +26,7 @@ exports.signup = async (req, res) => {
         if(user) return res.status(401).json({message: 'Uid already exists login instead'})
 
         let isValid = await uimsApi.login({ uid: uid, password: uims_password })
+        console.log('signup-uims-api', isValid)
 
         if(!isValid) return res.status(401).json({message: 'wrong uid or password'})
         
