@@ -1,6 +1,6 @@
 // importing modules 
 const jwt = require('jsonwebtoken')
-const {User,createUser} = require('../model/users')
+const User = require('../model/users')
 const { UimsApi } = require('uims-api')
 
 
@@ -29,7 +29,12 @@ exports.signup = async (req, res) => {
 
         if(!isValid) return res.status(401).json({message: 'wrong uid or password'})
         
-        let response = await createUser(uid, password)
+        let newUser = new User({
+            uid: uid,
+            password: password
+        })
+
+        let response = await newUser.save()
 
         let token = jwt.sign({id: response._id}, process.env.JWT_SECRET)
 
