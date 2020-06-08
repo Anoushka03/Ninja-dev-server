@@ -34,7 +34,7 @@ passport.use(new JWTStrategy({
     secretOrKey: process.env.JWT_SECRET
 }, async (jwtPayload, cb) => {
     try {
-        const user = await User.findOne({ username: jwtPayload.username })
+        const user = await User.findOne({ _id: jwtPayload.id })
         cb(null, user)
     }
     catch (err) {

@@ -6,7 +6,7 @@ const { UimsApi } = require('uims-api')
 
 exports.login = async (req, res) => {
     const user = {
-        email: req.user.username
+        id: req.user._id
     }
 
     let token = jwt.sign(user, process.env.JWT_SECRET)

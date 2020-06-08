@@ -12,6 +12,11 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
         const io = require('./socket').init(server)
         io.on('connection', (socket) => {
             console.log('Client connected') 
+            socket.on('join',(message) => {
+                console.log(message)
+                socket.emit(message.from, message)
+                socket.broadcast.emit('active',[message.from])
+            })
         })
     }).catch(err => {
         console.log(err)

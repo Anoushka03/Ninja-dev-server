@@ -25,5 +25,9 @@ app.get('/',(req,res)=>{
 const authRoute = require('./routes/auth')
 app.use('/auth',authRoute)
 
+// Chat Route
+const chatRoute = require('./routes/chat')
+app.use('/cuchat',chatRoute)
+
 
 module.exports = app
