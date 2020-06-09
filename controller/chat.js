@@ -4,6 +4,21 @@
 
 // importing modules 
 const Chat = require('../model/chat')
+const _ = require('lodash')
+
+const connecteduser = []
+
+exports.userJoin = uid => {
+    return connecteduser.push(uid)
+}
+
+exports.userLeft = uid => {
+    let users = _.remove(connecteduser, (n) => {
+        return n === uid
+    })
+
+    return users
+}
 
 exports.createMessage = async (to, from, message) => {
     
