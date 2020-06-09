@@ -27,7 +27,7 @@ app.use('/auth',authRoute)
 
 // Chat Route
 const chatRoute = require('./routes/chat')
-app.use('/cuchat',chatRoute)
+app.use('/cuchat',passport.authenticate('jwt',{session: false}),chatRoute)
 
 
 module.exports = app
