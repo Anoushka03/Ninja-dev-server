@@ -1,7 +1,6 @@
 const app = require('./app')
 const http = require('http')
 const mongoose = require('mongoose')
-const {userJoin,userLeft} = require('./controller/chat')
 
 // const server = http.createServer(app)
 
@@ -12,14 +11,15 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
         })
         const io = require('./socket').init(server)
         io.on('connection', (socket) => {
+
             socket.on('join', ({uid}) => {
-                let connectedUser = userJoin(uid)
-                socket.broadcast.emit('joined', connectedUser)
+                console.log(uid)
+                console.log('conuser', uid)
+                socket.broadcast.emit('joined',uid)
             })
 
             socket.on('disconnect', ({uid}) => {
-                let connectedUser = userLeft(uid)
-                socket.broadcast.emit('left', connectedUser)
+                socket.broadcast.emit('left', uid)
             })
         })
     }).catch(err => {

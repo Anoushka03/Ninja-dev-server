@@ -9,15 +9,16 @@ const _ = require('lodash')
 const connecteduser = []
 
 exports.userJoin = uid => {
-    return connecteduser.push(uid)
+    connecteduser.push(uid)
+    return connecteduser
 }
 
 exports.userLeft = uid => {
-    let users = _.remove(connecteduser, (n) => {
+    let connecteduser = _.remove(connecteduser, (n) => {
         return n === uid
     })
 
-    return users
+    return connecteduser
 }
 
 exports.createMessage = async (to, from, message) => {
