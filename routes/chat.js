@@ -18,11 +18,31 @@ router.route('/chats')
 
             let response = _.concat(sent, recieved)
 
-            return res.status(200).json(response)
+            return res.status(200).json({sent: sent,recieved: recieved})
         } catch (error) {
             return res.status(404).json(error)
         }
 
+    })
+
+    .post(async (req,res) => {
+        let {to, from, message, time} = req.body
+
+        try {
+            let chat = Chat({
+                to: to,
+                from: from,
+                message: message,
+                time: time
+            })
+
+            let response = await chat.save()
+
+            return res.status(200).json(response)
+            
+        } catch (error) {
+            return res.status(404).json(error)
+        }
     })
 
 module.exports = router
