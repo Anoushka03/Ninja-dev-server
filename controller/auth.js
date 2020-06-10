@@ -11,7 +11,7 @@ exports.login = async (req, res) => {
 
     let token = jwt.sign(user, process.env.JWT_SECRET)
 
-    return res.status(200).json({ token: token, message: "Login Successfull" })
+    return res.status(200).json({ token: token,uid: req.user.uid, message: "Login Successfull" })
 }
 
 exports.signup = async (req, res) => {

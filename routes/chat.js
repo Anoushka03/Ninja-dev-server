@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Chat = require('../model/chat')
+const _ = require('lodash')
 
 
 router.route('/chats')
@@ -8,14 +9,14 @@ router.route('/chats')
          * Here we will get authorized uid 
          * then get all chat related data and send them 
          */
-        let { uid } = req.user
+        let { uid } = req.query
 
         try {
             let sent = await Chat.find({ from: uid })
 
             let recieved = await Chat.find({ to: uid })
 
-            let response = { sent: sent, recieved: recieved }
+            let response = _.concat(sent, recieved)
 
             return res.status(200).json(response)
         } catch (error) {
