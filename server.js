@@ -21,6 +21,14 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
             socket.on('disconnect', ({uid}) => {
                 socket.broadcast.emit('left', uid)
             })
+
+            socket.on('message', (message) =>{
+                socket.broadcast.emit(message.to, message)
+                /**
+                 * Also we have to save the data in the backend.
+                 */
+                
+            })
         })
     }).catch(err => {
         console.log(err)
